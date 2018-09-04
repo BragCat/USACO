@@ -11,24 +11,27 @@ TASK: money
 #define MAXN 10000 
 
 int main() {
-    int v, n, coins[MAXV];
+    int v, n, coins[MAXV + 1];
     FILE *fin = fopen("money.in", "r");
     fscanf(fin, "%d%d", &v, &n);
-    for (int i=0; i<v; ++i)
-        fscanf(fin, "%d", coins+i);
+    for (int i = 1; i <= v; ++i)
+        fscanf(fin, "%d", coins + i);
     fclose(fin);
 
-    long long f[MAXN+1][MAXV+1];
+    long long f[MAXV + 1][MAXN + 1];
     memset(f, 0, sizeof(f));
-    for (int i=0; i<=v; ++i)
-        f[0][i] = 1;
-    for (int i=1; i<=n; ++i)
-        for (int j=1; j<=v; ++j)
-            for (int k=0; k<=i/coins[j-1]; ++k)
-                f[i][j] += f[i-k*coins[j-1]][j-1]; 
+    f[0][0] = 1;
+    for (int i = 1; i <= v; ++i) {
+        for (int j = 0; j <= n; ++j) {
+            f[i][j] = f[i - 1][j];
+            if (j >= coins[i]) {
+                f[i][j] += f[i][j - coins[i]]; 
+            }
+        }
+    }
     
     FILE *fout = fopen("money.out", "w");
-    fprintf(fout, "%lld\n", f[n][v]);
+    fprintf(fout, "%lld\n", f[v][n]);
     fclose(fout);
     return 0;
 }
