@@ -31,14 +31,6 @@ struct BfsState {
         this -> father = father;
         this -> operation = operation;
     }
-
-    /*
-    BfsState(BfsState &bfsState) {
-        this -> seq = bfsState.seq;
-        this -> father = bfsState.father;
-        this -> operation = bfsState.operation;
-    }
-     */
 };
 
 string getOperationSequence(vector<BfsState> &queue, int &steps) {
