@@ -5,7 +5,6 @@
  */
 
 #include <fstream>
-#include <deque>
 #include <iostream>
 
 using namespace std;
@@ -21,7 +20,7 @@ int linkNumber[MAX_N][2];
 int dist[2 * MAX_N][2 * MAX_N], path[2 * MAX_N][2 * MAX_N];
 
 int n;
-int minCycle;
+int minCycle = MAX_INT;
 int nodeCount;
 
 void bfsEdge(int edgeIndex, int nodeLabel, int code) {
@@ -63,19 +62,24 @@ void generateGraph() {
     // get dist matrix
     for (int i = 0; i < nodeCount; ++i) {
         for (int j = 0; j < nodeCount; ++j) {
-            if (i != j) {
-                path[i][j] = dist[i][j] = MAX_INT;
-            }
+            path[i][j] = dist[i][j] = MAX_INT;
         }
     }
     for (int i = 0; i < n; ++i) {
         int x = nodeCode[i][0], y = nodeCode[i][1];
+        // consider cycles of length 2
+        if (path[x][y] != MAX_INT) {
+            minCycle = min(minCycle, path[x][y] + edgeLength[i]);
+        }
         path[x][y] = path[y][x] = dist[x][y] = dist[y][x] = min(path[x][y], edgeLength[i]);
+    }
+    // consider cycles of length 1
+    for (int i = 0; i < nodeCount; ++i) {
+        minCycle = min(minCycle, dist[i][i]);
     }
 }
 
 void getMinCycle() {
-    minCycle = MAX_INT;
     for (int k = 0; k < nodeCount; ++k) {
         for (int i = 0; i < k; ++i) {
             for (int j = 0; j < i; ++j) {
