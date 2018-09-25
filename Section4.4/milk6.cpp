@@ -92,7 +92,8 @@ int sap(int edgeIndex) {
                 }
                 x = n - 1;
                 while (x != 0) {
-                    flow[preNode[x]][x]  -= minCap;
+                    flow[preNode[x]][x] -= minCap;
+                    flow[x][preNode[x]] += minCap;
                     x = preNode[x];
                 }
                 maxFlow += minCap;
