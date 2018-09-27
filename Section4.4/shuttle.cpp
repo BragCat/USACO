@@ -1,8 +1,8 @@
 /*
-ID: bragcat1
-LANG: C++11
-TASK: shuttle
-*/
+ ID: bragcat1
+ LANG: C++11
+ TASK: shuttle
+ */
 
 #include <fstream>
 
