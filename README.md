@@ -1,2 +1,2 @@
 # USACO
-This is the solutions of USACO.
+Solutions of USACO problems.
